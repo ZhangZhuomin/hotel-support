@@ -1,0 +1,51 @@
+<?xml version="1.0"?>
+<configuration>
+	<property resource="application.properties" />
+	<appender name="ROLLFILE"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${log.dir}/controller.log</file>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<!-- daily rollover -->
+			<fileNamePattern>${log.dir}/controllerlog.%d{yyyy-MM-dd,Asia/Hong_Kong}.gz
+			</fileNamePattern>
+			<!-- keep 30 days' worth of history -->
+			<maxHistory>30</maxHistory>
+		</rollingPolicy>
+		
+		<encoder>
+			<pattern>%date %level [%thread] %logger{35} [%file:%line] %msg%n
+			</pattern>
+		</encoder>
+		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">   
+      		<level>INFO</level>   
+    	</filter>  
+	</appender>
+	<appender name="FILE" class="ch.qos.logback.core.FileAppender">
+		<file>${log.dir}/controller.log</file>
+		<append>true</append>
+		<encoder>
+			<pattern>%date %level [%thread] %logger{35} [%file:%line] %msg%n
+			</pattern>
+		</encoder>
+	</appender>
+
+	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n
+			</pattern>
+		</encoder>
+	</appender>
+
+	<logger name="com.wgz" additivity="false">
+		<level value="${log.level}" />
+		<appender-ref ref="${log.appender}" />
+	</logger>
+	<logger name="com.wgz" additivity="false">
+		<level value="${log.level}" />
+		<appender-ref ref="${log.appender}" />
+	</logger>
+	
+	<root level="INFO">
+		<appender-ref ref="${log.appender}" />
+	</root>
+</configuration>
